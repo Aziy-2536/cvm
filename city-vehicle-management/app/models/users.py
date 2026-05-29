@@ -25,7 +25,7 @@ class User(Base):
     )
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, comment="自增主键")
-    name: Mapped[str] = mapped_column(String(50), nullable=False, comment="姓名")
+    username: Mapped[str] = mapped_column(String(50), nullable=False, comment="姓名")
     phone: Mapped[str] = mapped_column(String(20), unique=True, nullable=False, comment="电话号码")
     employee_id: Mapped[str] = mapped_column(String(50), unique=True, nullable=False, comment="职工编号")
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False, comment="密码哈希值")
