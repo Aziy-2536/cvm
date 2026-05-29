@@ -9,6 +9,7 @@ from typing import Optional
 from sqlalchemy import Column, Integer, String, SmallInteger, Date, Index
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+
 class Base(DeclarativeBase):
     pass
 
@@ -20,7 +21,7 @@ class User(Base):
 
     # 创建索引
     __table_args__ = (
-        Index('username_UNIQUE', 'name'),
+        Index('username_UNIQUE', 'username'),
         Index('phone_UNIQUE', 'phone'),
     )
 
