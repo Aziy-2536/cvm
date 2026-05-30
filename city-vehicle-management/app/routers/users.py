@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, status
 from app.utils.response import success_response
 from app.schemas.users import UserRegisterRequest, UserRegisterResponse
+from app.utils.security import verify_password, create_access_token
 
 router = APIRouter(prefix="/api/user", tags=["users"])
 
@@ -18,12 +19,13 @@ async def register_user(user_data: UserRegisterRequest, db: AsyncSession = Depen
     new_user = await users.create_user(db, user_data)
     return new_user
 
-@router.post("/login")
+@router.post("/login", response_model=UserAuthResponse)
 async def login(user_data: UserRequest, db: AsyncSession = Depends(get_db)):
-    # 登录逻辑：验证用户是否存在 -> 验证密码 -> 生成 Token  → 响应结果
-    user = await users.authenticate_user(db, user_data.username, user_data.password)
-    if not user:
+    result = await users.get_user_by_username_or_phone(db, user_data.username)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="用户名或手机号不存在")
+    user = result
+    if not verify_password(user_data.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="用户名或密码错误")
-    token = await users.create_token(db, user.id)
-    response_data = UserAuthResponse(token=token, user_info=UserInfoResponse.model_validate(user))
-    return success_response(message="登录成功啦", data=response_data)
+    access_token = create_access_token(data={"user_id": user.id, "role_level": user.role_level})
+    return UserAuthResponse(access_token=access_token, user_id=user.id, role_level=user.role_level)

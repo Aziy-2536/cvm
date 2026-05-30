@@ -27,3 +27,16 @@ async def create_user(db: AsyncSession, user: UserRegisterRequest):
     await db.commit()
     await db.refresh(db_user)
     return db_user
+
+
+async def get_user_by_username_or_phone(db: AsyncSession, username: str, phone: str = None):
+    """
+    根据用户名或手机号查询用户
+    如果 phone 未提供，则只使用 username 查询（实际登录时 username 和 phone 可能是同一输入）
+    """
+    result = await db.execute(
+        select(User).where(
+            (User.username == username) | (User.phone == username)  # 假设前端传入的 username 可能是手机号
+        )
+    )
+    return result.scalar_one_or_none()
