@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.routers import users
+from app.routers import vehicle_records
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -30,3 +31,4 @@ async def root():
 
 # 挂载路由/注册路由
 app.include_router(users.router)
+app.include_router(vehicle_records.router)

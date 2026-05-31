@@ -2,9 +2,10 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 from typing import List
-from models.vehicle import VehicleRecord
+from app.models.vehicle import VehicleRecord
+from app.models.vehicle import Camera
 from datetime import datetime, timedelta
-from models.vehicle import Camera
+
 
 async def query_vehicle_records(
         db:AsyncSession,
@@ -32,6 +33,8 @@ async def query_vehicle_records(
         stms = stms.limit(limit)
 
     result = await db.execute(stms)
+    records = result.scalars().all()
+    return records
 
 
 async def get_vehicle_records_by_plate_number(
@@ -82,6 +85,25 @@ async def get_vehicle_records_by_camera_code(
         offset=offset,
         limit=limit
     )
+
+# async def insert_vehicle_record(
+#     db: AsyncSession,
+#     plate_number: str,
+#     region_code: str,
+#     camera_id: int,
+#     pass_time: datetime
+# ) -> VehicleRecord:
+#     """插入新的车辆通行记录"""
+#     new_record = VehicleRecord(
+#         plate_number=plate_number,
+#         region_code=region_code,
+#         camera_id=camera_id,
+#         pass_time=pass_time
+#     )
+#     db.add(new_record)
+#     await db.commit()
+#     await db.refresh(new_record)
+#     return new_record
 
 # # 在调试时，获取原始 SQL 并手动加上 EXPLAIN
 # from sqlalchemy import text

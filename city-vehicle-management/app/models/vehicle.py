@@ -1,6 +1,8 @@
 from datetime import datetime
-from sqlalchemy import String, SmallInteger, DateTime, Float, ForeignKey,Optional,PrimaryKeyConstraint,Index
+from sqlalchemy import String, SmallInteger, DateTime, Float, ForeignKey, PrimaryKeyConstraint, Index,BigInteger
+from typing import Optional
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
 
 
 # ==================== 基类 ====================
@@ -51,7 +53,8 @@ class VehicleRecord(Base):
         Index('idx_region_pass', 'region_code', 'pass_time'),
     )
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, comment="自增主键")
+    # id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, comment="自增主键")
+    id:Mapped[BigInteger] = mapped_column (BigInteger, nullable=False, autoincrement=True)
     pass_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False,
                                                  comment="通过时间"
                                                  )
