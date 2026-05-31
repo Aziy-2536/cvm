@@ -16,7 +16,6 @@ class UserRegisterRequest(BaseModel):
     password: PasswordStr
     confirm_password: ConfirmPasswordStr
 
-
     #在整个模型层面进行校验，可以访问所有字段的最终值，
     # 能避免因字段定义顺序造成的各种问题，
     # 是处理复杂逻辑时最高效的兜底方案。
@@ -39,8 +38,6 @@ class UserRequest(BaseModel):
     username: UsernameStr 
     password: PasswordStr
 
-# app/schemas/users.py
-from pydantic import BaseModel
 
 class UserInfoResponse(BaseModel):
     id: int
