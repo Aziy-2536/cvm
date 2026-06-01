@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Annotated
 from pydantic import BaseModel, Field, model_validator
-from datetime import date
+from datetime import datetime, date
 
 
 UsernameStr = Annotated[str, Field(..., min_length=8, max_length=30, description="用户名，长度1-50")]
@@ -15,6 +15,8 @@ class UserRegisterRequest(BaseModel):
     phone: PhoneStr
     password: PasswordStr
     confirm_password: ConfirmPasswordStr
+    start_time: datetime
+    end_time: datetime
 
     #在整个模型层面进行校验，可以访问所有字段的最终值，
     # 能避免因字段定义顺序造成的各种问题，
@@ -30,6 +32,8 @@ class UserRegisterResponse(BaseModel):
     username: str
     phone: str
     role_level: int
+    start_time: datetime
+    end_time: datetime
 
     class Config:
         from_attributes = True   # 允许从 ORM 对象转换
@@ -37,6 +41,8 @@ class UserRegisterResponse(BaseModel):
 class UserRequest(BaseModel):
     username: UsernameStr 
     password: PasswordStr
+    start_time: datetime
+    end_time: datetime
 
 
 class UserInfoResponse(BaseModel):
@@ -46,9 +52,13 @@ class UserInfoResponse(BaseModel):
     employee_id: str
     role_level: int
     hire_date: date   # 需要 from datetime import date
+    start_time: datetime
+    end_time: datetime
 
 class UserAuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user_id: int
     role_level: int
+    start_time: datetime
+    end_time: datetime

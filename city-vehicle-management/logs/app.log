@@ -1,0 +1,7 @@
+2026-06-01 17:37:29,219 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-01 17:37:29,220 - apscheduler.scheduler - INFO - Added job "scheduled_archive" to job store "default"
+2026-06-01 17:37:29,221 - apscheduler.scheduler - INFO - Scheduler started
+2026-06-01 17:38:13,666 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2026-06-01 17:38:14,684 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-06-01 17:38:14,685 - apscheduler.scheduler - INFO - Added job "scheduled_archive" to job store "default"
+2026-06-01 17:38:14,686 - apscheduler.scheduler - INFO - Scheduler started
